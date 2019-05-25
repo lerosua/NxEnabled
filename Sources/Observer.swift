@@ -43,7 +43,7 @@ final class NUIObserver: NSObject {
             case let value as UIControl:  value.addTarget(self, action: #selector(textableValueChanged), for: .editingChanged)
             case let value as UITextView: NotificationCenter.default.addObserver(self,
                                                                                  selector: #selector(textVewChanged),
-                                                                                 name: .UITextViewTextDidChange,
+                                                                                 name: UITextView.textDidChangeNotification,
                                                                                  object: value)
             default: break
             }
@@ -72,7 +72,7 @@ final class NUIObserver: NSObject {
     // MARK: Helpers
     
     private func configureEnabling() {
-        let texts = textableValues.flatMap { textableValue -> String? in
+        let texts = textableValues.compactMap { textableValue -> String? in
             guard let value = textableValue.value else {
                 return nil
             }
